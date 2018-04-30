@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello(@AuthenticationPrincipal final UserDetails userDetails){
-        System.out.print(String.format("User: [%s] - Authentication!\n",userDetails.getUsername()));
+    public String hello(){
         return "Hi!";
     }
 

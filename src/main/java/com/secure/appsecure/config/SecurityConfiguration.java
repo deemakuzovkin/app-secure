@@ -1,5 +1,6 @@
 package com.secure.appsecure.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +29,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("**/hello").hasRole("User")
+                .anyRequest()
+                .fullyAuthenticated()
+                .and()
+                .httpBasic();
+                /*.addFilterBefore(customFilter(), BasicAuthenticationFilter.class)*/
 /*                .anyRequest()
                 .fullyAuthenticated()*/
-                .and().httpBasic();
         httpSecurity.csrf().disable();
     }
+
+    @Bean
+    public CustomFilter customFilter() {
+        return new CustomFilter();
+    }
+
+
 }
