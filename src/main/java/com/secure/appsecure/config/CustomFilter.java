@@ -1,5 +1,6 @@
 package com.secure.appsecure.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -10,9 +11,13 @@ import java.security.Principal;
 @Component
 public class CustomFilter implements Filter {
 
+    @Value("${app.service.name}")
+    private String appName;
+
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("[CustomFilter] - init");
+        System.out.println(String.format("[%s][CustomFilter] - init", appName));
     }
 
     @Override
